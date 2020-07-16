@@ -45,7 +45,7 @@ def get_links():
 # in - [string, string, string][] - list of links to check
 # out - [string, string, string] - first link to match all criteria with title and permalink
 # takes in a list of links and attempts to find the first one that is a direct image link,
-# is within the proper dimensions, and is not blacklisted
+# is within the proper dimensions, and is not blocklisted
 def choose_valid(links):
     if len(links) == 0:
         print("No links were returned from any of those subreddits. Are they valid?")
@@ -59,7 +59,7 @@ def choose_valid(links):
                 link += ".jpg"
             else:
                 continue
-        if not (connection.connected(link) and check_dimensions(link) and check_blacklist(link)):
+        if not (connection.connected(link) and check_dimensions(link) and check_blocklist(link)):
             continue
 
         def check_same_url(link):
@@ -105,26 +105,26 @@ def pick_random(subreddits):
     return subreddits[rand]
 
 
-# in - string - a url to match against the blacklist
-# out - boolean - whether the url is blacklisted
-# checks to see if the url is on the blacklist or not (True means the link is good)
-def check_blacklist(url):
-    with open(config.walldir + '/blacklist.txt', 'r') as blacklist:
-        bl_links = blacklist.read().split('\n')
+# in - string - a url to match against the blocklist
+# out - boolean - whether the url is blocklisted
+# checks to see if the url is on the blocklist or not (True means the link is good)
+def check_blocklist(url):
+    with open(config.walldir + '/blocklist.txt', 'r') as blocklist:
+        bl_links = blocklist.read().split('\n')
     for link in bl_links:
         if link == url:
             return False
     return True
 
 
-# blacklists the current wallpaper, as listed in the ~/.wallpaper/url.txt file
-def blacklist_current():
+# blocklists the current wallpaper, as listed in the ~/.wallpaper/url.txt file
+def blocklist_current():
     if not os.path.isfile(config.walldir + '/url.txt'):
         print(
             'ERROR: ~/.wallpaper/url.txt does not exist.'
-            'wallpaper-reddit must run once before you can blacklist a wallpaper.')
+            'wallpaper-reddit must run once before you can blocklist a wallpaper.')
         sys.exit(1)
     with open(config.walldir + '/url.txt', 'r') as urlfile:
         url = urlfile.read()
-    with open(config.walldir + '/blacklist.txt', 'a') as blacklist:
-        blacklist.write(url + '\n')
+    with open(config.walldir + '/blocklist.txt', 'a') as blocklist:
+        blocklist.write(url + '\n')

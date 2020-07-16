@@ -26,7 +26,7 @@ maxlinks = 0
 resize = False
 settitle = False
 randomsub = False
-blacklistcurrent = False
+blocklistcurrent = False
 setcmd = ''
 walldir = ''
 confdir = ''
@@ -47,9 +47,9 @@ def init_config():
     if not os.path.exists(walldir):
         os.makedirs(walldir)
         log(walldir + " created")
-    if not os.path.exists(walldir + '/blacklist.txt'):
-        with open(walldir + '/blacklist.txt', 'w') as blacklist:
-            blacklist.write('')
+    if not os.path.exists(walldir + '/blocklist.txt'):
+        with open(walldir + '/blocklist.txt', 'w') as blocklist:
+            blocklist.write('')
     if not os.path.exists(walldir + '/url.txt'):
         with open(walldir + '/url.txt', 'w') as urlfile:
             urlfile.write('')
@@ -148,7 +148,7 @@ def parse_args():
     parser.add_argument("--resize", help="resizes the image to the height and width specified in the config after "
                                          "wallpaper is set.  Enabled by default in the configuration file,",
                         action="store_true")
-    parser.add_argument("-b", "--blacklist", help="blacklists the current wallpaper and downloads a new wallpaper",
+    parser.add_argument("-b", "--blocklist", help="blocklists the current wallpaper and downloads a new wallpaper",
                         action="store_true")
     parser.add_argument("-s", "--sort-by", help="choose Reddit's sorting algorithm from {} (default=hot)".format(sort_by_values))
     parser.add_argument("--random",
@@ -167,7 +167,7 @@ def parse_args():
     global resize
     global settitle
     global randomsub
-    global blacklistcurrent
+    global blocklistcurrent
     global lottery
     global sortby
     if not args.subreddits == []:
@@ -183,8 +183,8 @@ def parse_args():
         settitle = True
     if args.random:
         randomsub = True
-    if args.blacklist:
-        blacklistcurrent = True
+    if args.blocklist:
+        blocklistcurrent = True
     if args.lottery:
         lottery = True
     if args.sort_by in sort_by_values:

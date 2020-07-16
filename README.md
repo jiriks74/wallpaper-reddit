@@ -25,12 +25,12 @@ Options for the startup can only be set in the config file.  They are under the 
 ## Saving
 If wallpaper-reddit is run with the `--save` flag, no wallpaper will be downloaded.  The current wallpaper will be copied to the save directory, as specified in the config file (default is `~/Pictures/Wallpapers` on Linux, `~/My Pictures/Wallpapers` on Windows), and its title will be put into a titles.txt file inside the same directory.  
 
-## Blacklists
-There is a function to blacklist a certain wallpaper from the script if it is particularly ugly.  Simply run the script with the `--blacklist` flag.  The script will run as usual, but additionally blacklist your current wallpaper.  You'll get a new wallpaper and never see the old one again.  
+## blocklists
+There is a function to blocklist a certain wallpaper from the script if it is particularly ugly.  Simply run the script with the `--blocklist` flag.  The script will run as usual, but additionally blocklist your current wallpaper.  You'll get a new wallpaper and never see the old one again.  
 
 ## External commands and wallpaper info
 Because more information is always better, much more than the wallpaper itself exists in `~/.wallpaper`.
-- `blacklist.txt` contains the urls of blacklisted wallpapers, one can manually add urls without issue.
+- `blocklist.txt` contains the urls of blocklisted wallpapers, one can manually add urls without issue.
 - `url.txt` is the url of the current wallpaper
 - `title.txt` is the title of the current wallpaper (useful if you want to put the title into conky)
 - `external.sh` is a bash script that is run at the end of every execution of the script (Linux only).  Any extra commands to deal with the wallpaper can be safely placed in this bash script.  I personally have mine darken my xfce4-panel if the wallpaper is too bright at the top, and set the wallpaper as my SLiM/xscreensaver background.

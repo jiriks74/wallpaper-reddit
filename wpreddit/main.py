@@ -10,9 +10,9 @@ from wpreddit import config, connection, download, reddit, wallpaper
 def run():
     try:
         config.init_config()
-        # blacklist the current wallpaper if requested
-        if config.blacklistcurrent:
-            reddit.blacklist_current()
+        # blocklist the current wallpaper if requested
+        if config.blocklistcurrent:
+            reddit.blocklist_current()
         # check if the program is run in a special case (save or startup)
         if config.save:
             wallpaper.save_wallpaper()
