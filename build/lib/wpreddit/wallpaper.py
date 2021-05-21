@@ -70,8 +70,10 @@ def linux_wallpaper():
         elif check_de(de, ["sway"]):
             check_call(["swaymsg", "output * bg %s fill" % path])
         elif check_de(de, ["plasma"]):
-            #check_call(["qdbus", "org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "\'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = \"org.kde.image\";d.currentConfigGroup = Array(\"Wallpaper\", \"org.kde.image\", \"General\");d.writeConfig(\"Image\", \"file://"+path+")}\'"])
-            os.system('qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = "org.kde.image";d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");d.writeConfig("Image", "file://'+path+'")}\'')
+            os.system('touch ' + path + '.jpg')
+            os.system(f'echo {path}')
+            os.system(f"""qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript 'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {{d = allDesktops[i];d.wallpaperPlugin = "org.kde.image";d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");d.writeConfig("Image", "file://{path+'.jpg'}")}}'""")
+            os.system(f"""qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript 'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {{d = allDesktops[i];d.wallpaperPlugin = "org.kde.image";d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");d.writeConfig("Image", "file://{path}")}}'""")
         elif config.setcmd == '':
             print("Your DE could not be detected to set the wallpaper. "
                   "You need to set the 'setcommand' paramter at ~/.config/wallpaper-reddit. "
@@ -89,27 +91,10 @@ def save_wallpaper():
     if not os.path.exists(config.savedir):
         os.makedirs(config.savedir)
         config.log(config.savedir + " created")
-    origpath = config.walldir
-    newpath = config.savedir
-
-    if config.opsys == "Windows":
-        origpath = origpath + ('\\wallpaper.bmp')
-        while os.path.isfile(config.savedir + '\\wallpaper' + str(wpcount) + '.bmp'):
-            wpcount += 1
-        newpath = newpath + ('\\wallpaper' + str(wpcount) + '.bmp')
-    else:
-        origpath = origpath + ('/wallpaper.jpg')
-        while os.path.isfile(config.savedir + '/wallpaper' + str(wpcount) + '.jpg'):
-            wpcount += 1
-        newpath = newpath + ('/wallpaper'  + str(wpcount) + '.jpg')
-    shutil.copyfile(origpath, newpath)
-
-    with open(config.walldir + '/title.txt', 'r') as f:
-        title = f.read()
-    with open(config.savedir + '/titles.txt', 'a') as f:
-        f.write('\n' + 'wallpaper' + str(wpcount) + ': ' + title)
-
-    print("Current wallpaper saved to " + newpath)
+    if not os.path.isfile(config.savedir + '/titles.txt'):
+        with open(config.savedir + '/titles.txt', 'w') as f:
+            f.write('Titles of the saved wallpapers:')
+        config.log(config.savedir + "/titles.txt created")
 
     wpcount = 0
     origpath = config.walldir
