@@ -70,7 +70,7 @@ def linux_wallpaper():
         elif check_de(de, ["sway"]):
             check_call(["swaymsg", "output * bg %s fill" % path])
         elif check_de(de, ["plasma"]):
-            if not os.path.exists(path):
+            if not os.path.exists(path+'.jpg'):
                 os.system('touch ' + path + '.jpg')
             os.system(f"""qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript 'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {{d = allDesktops[i];d.wallpaperPlugin = "org.kde.image";d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");d.writeConfig("Image", "file://{path+'.jpg'}")}}'""")
             os.system(f"""qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript 'var allDesktops = desktops();print (allDesktops);for (i=0;i<allDesktops.length;i++) {{d = allDesktops[i];d.wallpaperPlugin = "org.kde.image";d.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");d.writeConfig("Image", "file://{path}")}}'""")
